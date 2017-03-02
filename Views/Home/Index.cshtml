@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "Welcome";
+}
+
+<div id="main" class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-2">
+            <div id="searchBar">
+                <div>
+                    <h4>Search</h4>
+                    <div class="form-group">
+                        <form id="searchForm">
+                            <div>
+                                <input class="form-control" type="text" ng-model="selected" id="searchSelected" placeholder="Clinic" uib-typeahead="location.Name for location in locations | filter:$viewValue | limitTo:10">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <input class="form-control" type="text" id="radiusSearch" name="radiusSearch" placeholder="Radius" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <form id="postalForm">
+                            <div>
+                                <input class="form-control" type="text" id="postalSearch" name="postalSearch" placeholder="Postal Code" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-group">
+                        <form id="cityForm">
+                            <div>
+                                <input class="form-control" type="text" ng-model="selectedCity" id="citySearch" placeholder="City" uib-typeahead="city.City for city in cities | filter:{City:$viewValue} | limitTo:8">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-default" id="nearMe">Near Me</button>
+                        <button class="btn btn-default" id="formClear">Clear</button>
+                    </div>
+
+                </div>
+                <div class="horizontal_gap">
+                    
+                </div>
+                <div id="waitTime_Chart">
+                    <h4><i class="fa fa-clock-o fa-2x" aria-hidden="true"></i> Average Wait Time</h4>
+                    <div id="avg_WaitTime_Text" ng-model="avgWaitTime">
+                        {{avgWaitTime}}
+                    </div>
+                </div>
+                <div class="horizontal_gap">
+
+                </div>
+                <div id="numLocations_Chart">
+                        <h4><i class="fa fa-map-marker fa-2x" aria-hidden="true"></i> Number of Locations</h4>
+                    <div id="numLocations_Text" ng-model="numLocations">
+                        {{numLocations}}
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+        <div class="col-xs-12 col-md-7">
+            <div id="map">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-3">
+            <div id="location">
+                <div class="locations">
+                    <div ng-repeat="l in nearByLocations">
+                        <h4>{{ l.Name }}</h4>
+                        {{ l.Address }}
+                        {{ l.City }}
+                        {{ l.Phone }}
+                        <h5 ng-class='{high : l.WaitTime.CurrentWaitTime > 20, low: l.WaitTime.CurrentWaitTime <= 20}'>Current Wait Time: {{ l.WaitTime.CurrentWaitTime }}</h5>
+                        <h5>Last Updated: {{l.WaitTime.LastUpdated}}</h5>
+                        <i class="fa fa-car" aria-hidden="true"></i>
+                        <div class="form-group">
+                            <input value="" placeholder="Directions From" id="directionFrom" class="form-control" type="text">
+                        </div>
+                        <div class="form-group">
+                            <input value="{{l.Address}} {{l.City}}" id="directionTo" class="form-control" type="text">
+                        </div>
+
+                        <button class="btn btn-default" onclick="getDirections()">Get Directions</button>
+                        <hr />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

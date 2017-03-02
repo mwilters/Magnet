@@ -1,0 +1,64 @@
+﻿@model IEnumerable <Magnet.Models.Location>
+@using System.Text.RegularExpressions
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Dashboard</h2>
+
+@Html.ActionLink("New Location", "New", "Locations", new { @class = "btn btn-primary" })
+
+<table id="locations" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Province</th>
+            <th>Postal</th>
+            <th>Country</th>
+            <th>Phone</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var location in Model)
+{
+            <tr>
+                <td>@Html.ActionLink(location.Name, "Edit", "Locations", new { id = location.ID }, null)</td>
+                <td>@location.Address</td>
+                <td>@location.City</td>
+                <td>@location.ProvState</td>
+                <td>@location.PostalZip</td>
+                <td>@location.Country</td>
+                <td>@location.Phone</td>
+                <td>@location.Latitude</td>
+                <td>@location.Longitude</td>
+                <td>
+                    <button data-customer-id="@location.ID" class="btn btn-link js-delete">Delete</button>
+                </td>
+            </tr>
+}
+    </tbody>
+
+</table>
+
+@section scripts{
+    <script>
+        $(document)
+            .ready(function() {
+                //Enables the DataTables Plugin
+                $("#locations")
+                    .DataTable();
+            });
+    </script>
+    
+    @Scripts.Render("~/bundles/jqueryval")
+    
+
+}
+
